@@ -1,9 +1,11 @@
-# Tuning de llama-server (Ornith / cualquier modelo futuro)
+# Tuning de llama-server (Ornith - AMD 9070XT 16VRAM)
 
 Kit para repetir el proceso de ajuste cada vez que cambies de modelo, versión
 o cuantización, sin tener que reinventarlo. Todo en bash + Python (nada de
 PowerShell) — cada `.sh` es un lanzador de tres líneas que llama a un `.py`
-con la lógica real.
+con la lógica real. 
+
+Modelo elegido optimizado para grafica de 16 Vram y 32GB de RAM, pero se puede adaptar la cuantización para distintos tamaños de memoria
 
 ## Antes de nada: pon los archivos del modelo
 
