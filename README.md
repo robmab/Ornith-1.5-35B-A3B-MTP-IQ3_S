@@ -5,6 +5,33 @@ o cuantización, sin tener que reinventarlo. Todo en bash + Python (nada de
 PowerShell) — cada `.sh` es un lanzador de tres líneas que llama a un `.py`
 con la lógica real.
 
+## Antes de nada: pon los archivos del modelo
+
+Este repo **no incluye los `.gguf`** — pesan varios GB y no se suben a git.
+Hay que descargarlos aparte y colocarlos a mano, en esta misma carpeta (junto
+a `ornith-1.5-35b.sh`), con estos nombres exactos:
+
+```
+Ornith-1.5-35B-A3B-MTP.i1-IQ3_S.gguf        (~15.6 GB) — el modelo
+Ornith-1.5-35B-A3B-MTP.mmproj-f16.gguf      (~0.9 GB)  — proyector de vision
+```
+
+- El **modelo** (`i1-IQ3_S`) es la cuantización imatrix, del repo de GGUFs de
+  mradermacher para Ornith-1.5-35B-A3B-MTP.
+- El **mmproj** tiene que venir del **repo estático** de mradermacher (no del
+  de imatrix) — si coges el mmproj del repo equivocado, la visión falla o
+  carga con warnings raros. Esto ya se confirmó una vez al montar el
+  `.sh`: el nombre del archivo puede ser igual en los dos repos, así que
+  fíjate en la URL de origen, no solo en el nombre.
+- Si cambias de nombre de archivo o de carpeta, actualiza `--model-path` (y el
+  mmproj) dentro de `ornith-1.5-35b.sh` para que apunten a donde los hayas
+  puesto.
+
+Sin estos dos archivos en su sitio, `ornith-1.5-35b.sh` falla al arrancar
+(error de "no such file or directory" al cargar el modelo), y por tanto
+también falla el launcher (`Ornith-Launcher.exe`), que depende de que
+llama-server llegue a arrancar.
+
 ## Arranque rápido (uso diario)
 
 Dos comandos, cada uno en **su propia terminal** (Git Bash). Las dos ventanas
