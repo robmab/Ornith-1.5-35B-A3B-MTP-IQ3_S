@@ -448,3 +448,32 @@ clave ni límites. Requiere Docker Desktop funcionando (`docker --version` y
 
 El compose y el modo *Heredado* del punto anterior siguen siendo necesarios en
 esta variante.
+
+### Configurar el MCP (búsqueda web) a nivel de VS Code
+
+Además de Open WebUI, el servidor MCP `ddg-search` (DuckDuckGo) permite que
+VS Code lea internet a tu asistente. El `.vscode/mcp.json` que hay en este
+proyecto vive **dentro del proyecto**, así que conviene no dejarlo ahí: para
+que el MCP esté disponible en **todos** tus proyectos, instálalo a nivel de
+perfil de VS Code (no por carpeta):
+
+1. Abre la paleta de comandos (`Ctrl+Shift+P`).
+2. Ejecuta **MCP: Open User Configuration**.
+3. Esto abre un `mcp.json` que vive en tu perfil de usuario (no en ningún
+   repo), con la misma estructura:
+
+```json
+{
+  "servers": {
+    "ddg-search": {
+      "command": "uvx",
+      "args": ["duckduckgo-mcp-server"]
+    }
+  }
+}
+```
+
+4. Guarda. A partir de ahí, `ddg-search` está disponible en **cualquier
+   proyecto** que abras, sin tocar nada del repositorio.
+
+Desde "configurar herramientas", activar ddg-search y actualizar
