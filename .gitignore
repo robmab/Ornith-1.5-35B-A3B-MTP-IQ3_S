@@ -1,0 +1,4 @@
+*.gguf
+__pycache__/
+logs/
+.webui_secret_key

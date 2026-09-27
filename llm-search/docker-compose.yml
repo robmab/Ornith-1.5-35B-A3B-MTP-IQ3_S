@@ -1,0 +1,52 @@
+services:
+  searxng:
+    image: searxng/searxng:latest
+    container_name: searxng
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8081:8080"   # solo para probar desde el navegador
+    volumes:
+      - ./searxng:/etc/searxng
+    environment:
+      - SEARXNG_BASE_URL=http://localhost:8081/
+      - SEARXNG_SECRET=cambia-esto-por-una-cadena-larga-aleatoria
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:8080"
+    volumes:
+      - open-webui-data:/app/backend/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - searxng
+    environment:
+      # --- Tu llama-server (puerto 10001; la clave debe ser la de --api-key) ---
+      # llama-server tiene que escuchar en 0.0.0.0 (--host 0.0.0.0) para que
+      # el contenedor lo alcance a traves de host.docker.internal.
+      - ENABLE_OLLAMA_API=false
+      - OPENAI_API_BASE_URL=http://host.docker.internal:10001/v1
+      - OPENAI_API_KEY=pon-aqui-tu-api-key
+
+      # --- Busqueda web con SearXNG ---
+      # (Open WebUI renombro estas variables en versiones recientes;
+      #  se ponen ambos nombres, el que no aplique se ignora)
+      - ENABLE_WEB_SEARCH=true
+      - WEB_SEARCH_ENGINE=searxng
+      - WEB_SEARCH_RESULT_COUNT=4
+      - WEB_SEARCH_CONCURRENT_REQUESTS=2
+      - ENABLE_RAG_WEB_SEARCH=true
+      - RAG_WEB_SEARCH_ENGINE=searxng
+      - RAG_WEB_SEARCH_RESULT_COUNT=4
+      - RAG_WEB_SEARCH_CONCURRENT_REQUESTS=2
+      - SEARXNG_QUERY_URL=http://searxng:8080/search?q=<query>
+
+      # --- Evitar que Open WebUI gaste tu GPU en tareas secundarias ---
+      - ENABLE_TAGS_GENERATION=false
+      - ENABLE_AUTOCOMPLETE_GENERATION=false
+
+volumes:
+  open-webui-data:
