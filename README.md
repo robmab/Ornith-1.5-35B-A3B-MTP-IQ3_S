@@ -32,6 +32,8 @@ Sin estos dos archivos en su sitio, `ornith-1.5-35b.sh` falla al arrancar
 también falla el launcher (`Ornith-Launcher.exe`), que depende de que
 llama-server llegue a arrancar.
 
+https://huggingface.co/mradermacher/Ornith-1.5-35B-A3B-MTP-i1-GGUF
+
 ## Arranque rápido (uso diario)
 
 Dos comandos, cada uno en **su propia terminal** (Git Bash). Las dos ventanas
