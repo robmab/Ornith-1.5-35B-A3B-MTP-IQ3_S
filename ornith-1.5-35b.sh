@@ -26,8 +26,8 @@ cd "$EXE_DIR"
     --ctx-size "$CTX_SIZE" \
     --parallel 1 \
     --jinja \
-    --reasoning on \
-    --reasoning-preserve \
+    --reasoning off \
+    --no-reasoning-preserve \
     --spec-type draft-mtp \
     --spec-draft-n-max 2 \
     --spec-draft-p-min 0.05 \
